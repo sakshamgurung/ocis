@@ -14,8 +14,7 @@
         "https://oc10.owncloud.test"
     ],
     "notBefore": 0,
-    "bearerOn
-    y": false,
+    "bearerOnly": false,
     "consentRequired": false,
     "standardFlowEnabled": true,
     "implicitFlowEnabled": false,
