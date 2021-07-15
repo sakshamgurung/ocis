@@ -256,7 +256,7 @@ services:
       OWNCLOUD_LOG_FILE: /dev/stdout
     volumes:
       - ./config/oc10/config.php:/etc/templates/config.php
-      - ./config/oc10/ldap-sync-cron:/etc/cron.d/ldap-sync-cron
+      - ./config/oc10/ldap-sync-cron:/tmp/ldap-sync-cron
       - ./config/oc10/ldap.sh:/etc/pre_server.d/10-ldap.sh
       - oc10-data:/mnt/data
       - oc10-tmp:/tmp/shared
