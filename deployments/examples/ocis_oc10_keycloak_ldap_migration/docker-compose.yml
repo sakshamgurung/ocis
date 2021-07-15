@@ -43,83 +43,82 @@ services:
       driver: "local"
     restart: always
 
-  ocis:
-    image: owncloud/ocis:${OCIS_DOCKER_TAG:-latest}
-    entrypoint:
-      - /bin/sh
-      - /entrypoint-override.sh
-    networks:
-      ocis-net:
-    environment:
-      # Keycloak IDP specific configuration
-      PROXY_AUTOPROVISION_ACCOUNTS: "true"
-      PROXY_OIDC_ISSUER: https://${KEYCLOAK_DOMAIN:-keycloak.owncloud.test}/auth/realms/${KEYCLOAK_REALM:-oCIS}
-      WEB_OIDC_AUTHORITY: https://${KEYCLOAK_DOMAIN:-keycloak.owncloud.test}/auth/realms/${KEYCLOAK_REALM:-oCIS}
-      WEB_OIDC_CLIENT_ID: ${OCIS_OIDC_CLIENT_ID:-web}
-      WEB_OIDC_METADATA_URL: https://${KEYCLOAK_DOMAIN:-keycloak.owncloud.test}/auth/realms/${KEYCLOAK_REALM:-oCIS}/.well-known/openid-configuration
-      STORAGE_OIDC_ISSUER: https://${KEYCLOAK_DOMAIN:-keycloak.owncloud.test}
-      STORAGE_LDAP_IDP: https://${KEYCLOAK_DOMAIN:-keycloak.owncloud.test}/auth/realms/${KEYCLOAK_REALM:-oCIS}
-      # CS3 users from ldap specific configuration
-      PROXY_CONFIG_FILE: "/config/proxy-config.json"
-      IDP_LDAP_FILTER: "(&(objectclass=inetOrgPerson)(objectClass=owncloud))"
-      IDP_LDAP_URI: ldap://openldap:389
-      IDP_LDAP_BIND_DN: "cn=admin,dc=owncloud,dc=com"
-      IDP_LDAP_BIND_PASSWORD: ${LDAP_ADMIN_PASSWORD:-admin}
-      IDP_LDAP_BASE_DN: "dc=owncloud,dc=com"
-      IDP_LDAP_LOGIN_ATTRIBUTE: uid
-      IDP_LDAP_UUID_ATTRIBUTE: "ownclouduuid"
-      IDP_LDAP_UUID_ATTRIBUTE_TYPE: binary
-      PROXY_ACCOUNT_BACKEND_TYPE: cs3
-      STORAGE_LDAP_HOSTNAME: openldap
-      STORAGE_LDAP_PORT: 636
-      STORAGE_LDAP_BASE_DN: "dc=owncloud,dc=com"
-      STORAGE_LDAP_BIND_DN: "cn=admin,dc=owncloud,dc=com"
-      STORAGE_LDAP_BIND_PASSWORD: ${LDAP_ADMIN_PASSWORD:-admin}
-      STORAGE_LDAP_LOGINFILTER: "(&(objectclass=inetOrgPerson)(objectclass=owncloud)(|(uid={{login}})(mail={{login}})))"
-      STORAGE_LDAP_USERFILTER: "(&(objectclass=inetOrgPerson)(objectclass=owncloud)(|(ownclouduuid={{.OpaqueId}})(uid={{.OpaqueId}})))"
-      STORAGE_LDAP_ATTRIBUTEFILTER: "(&(objectclass=owncloud)({{attr}}={{value}}))"
-      STORAGE_LDAP_FINDFILTER: "(&(objectclass=owncloud)(|(uid={{query}}*)(cn={{query}}*)(displayname={{query}}*)(mail={{query}}*)(description={{query}}*)))"
-      STORAGE_LDAP_GROUPFILTER: "(&(objectclass=groupOfUniqueNames)(objectclass=owncloud)(ownclouduuid={{.OpaqueId}}*))"
-      # ownCloud storage driver
-      STORAGE_HOME_DRIVER: owncloudsql
-      STORAGE_USERS_DRIVER: owncloudsql
-      STORAGE_DRIVER_OWNCLOUDSQL_DATADIR: /mnt/data/files
-      STORAGE_DRIVER_OWNCLOUDSQL_UPLOADINFO_DIR: /mnt/shared/
-      STORAGE_DRIVER_OWNCLOUDSQL_SHARE_FOLDER: "/Shares"
-      STORAGE_DRIVER_OWNCLOUDSQL_ENABLE_HOME: "false"
-      STORAGE_DRIVER_OWNCLOUDSQL_LAYOUT: "{{.Username}}"
-      STORAGE_DRIVER_OWNCLOUDSQL_DBUSERNAME: owncloud
-      STORAGE_DRIVER_OWNCLOUDSQL_DBPASSWORD: owncloud
-      STORAGE_DRIVER_OWNCLOUDSQL_DBHOST: oc10-db
-      STORAGE_DRIVER_OWNCLOUDSQL_DBPORT: 3306
-      STORAGE_DRIVER_OWNCLOUDSQL_DBNAME: owncloud
-      STORAGE_DRIVER_OWNCLOUD_REDIS_ADDR: redis:6379 # TODO: redis is not yet supported
-      # ownCloud storage readonly
-      OCIS_STORAGE_READ_ONLY: "false" # cannot be set to true -> https://github.com/owncloud/ocis/issues/2303
-      # General oCIS config
-      OCIS_URL: https://${OCIS_DOMAIN:-ocis.owncloud.test}
-      OCIS_LOG_LEVEL: ${OCIS_LOG_LEVEL:-error} # make oCIS less verbose
-      PROXY_OIDC_INSECURE: "${INSECURE:-false}" # needed if Traefik is using self generated certificates
-      PROXY_TLS: "false" # do not use SSL between Traefik and oCIS
-      # change default secrets
-      OCIS_JWT_SECRET: ${OCIS_JWT_SECRET:-Pive-Fumkiu4}
-    volumes:
-      - ./config/ocis/entrypoint-override.sh:/entrypoint-override.sh
-      - ./config/ocis/proxy-config.json:/config/proxy-config.json
-      - ocis-data:/var/tmp/ocis
-      # shared volume with oC10
-      - oc10-data:/mnt/data
-      - oc10-tmp:/tmp/shared
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.ocis.entrypoints=https"
-      - "traefik.http.routers.ocis.rule=Host(`${OCIS_DOMAIN:-ocis.owncloud.test}`)"
-      - "traefik.http.routers.ocis.tls.certresolver=http"
-      - "traefik.http.routers.ocis.service=ocis"
-      - "traefik.http.services.ocis.loadbalancer.server.port=9200"
-    logging:
-      driver: "local"
-    restart: always
+  # ocis:
+  #   image: owncloud/ocis:${OCIS_DOCKER_TAG:-latest}
+  #   entrypoint:
+  #     - /bin/sh
+  #     - /entrypoint-override.sh
+  #   networks:
+  #     ocis-net:
+  #   environment:
+  #     # Keycloak IDP specific configuration
+  #     PROXY_AUTOPROVISION_ACCOUNTS: "true"
+  #     PROXY_OIDC_ISSUER: https://${KEYCLOAK_DOMAIN:-keycloak.owncloud.test}/auth/realms/${KEYCLOAK_REALM:-oCIS}
+  #     WEB_OIDC_AUTHORITY: https://${KEYCLOAK_DOMAIN:-keycloak.owncloud.test}/auth/realms/${KEYCLOAK_REALM:-oCIS}
+  #     WEB_OIDC_CLIENT_ID: ${OCIS_OIDC_CLIENT_ID:-web}
+  #     WEB_OIDC_METADATA_URL: https://${KEYCLOAK_DOMAIN:-keycloak.owncloud.test}/auth/realms/${KEYCLOAK_REALM:-oCIS}/.well-known/openid-configuration
+  #     STORAGE_OIDC_ISSUER: https://${KEYCLOAK_DOMAIN:-keycloak.owncloud.test}
+  #     STORAGE_LDAP_IDP: https://${KEYCLOAK_DOMAIN:-keycloak.owncloud.test}/auth/realms/${KEYCLOAK_REALM:-oCIS}
+  #     # CS3 users from ldap specific configuration
+  #     PROXY_CONFIG_FILE: "/config/proxy-config.json"
+  #     IDP_LDAP_FILTER: "(&(objectclass=inetOrgPerson)(objectClass=owncloud))"
+  #     IDP_LDAP_URI: ldap://openldap:389
+  #     IDP_LDAP_BIND_DN: "cn=admin,dc=owncloud,dc=com"
+  #     IDP_LDAP_BIND_PASSWORD: ${LDAP_ADMIN_PASSWORD:-admin}
+  #     IDP_LDAP_BASE_DN: "dc=owncloud,dc=com"
+  #     IDP_LDAP_LOGIN_ATTRIBUTE: uid
+  #     IDP_LDAP_UUID_ATTRIBUTE: "ownclouduuid"
+  #     IDP_LDAP_UUID_ATTRIBUTE_TYPE: binary
+  #     PROXY_ACCOUNT_BACKEND_TYPE: cs3
+  #     STORAGE_LDAP_HOSTNAME: openldap
+  #     STORAGE_LDAP_PORT: 636
+  #     STORAGE_LDAP_BASE_DN: "dc=owncloud,dc=com"
+  #     STORAGE_LDAP_BIND_DN: "cn=admin,dc=owncloud,dc=com"
+  #     STORAGE_LDAP_BIND_PASSWORD: ${LDAP_ADMIN_PASSWORD:-admin}
+  #     STORAGE_LDAP_LOGINFILTER: "(&(objectclass=inetOrgPerson)(objectclass=owncloud)(|(uid={{login}})(mail={{login}})))"
+  #     STORAGE_LDAP_USERFILTER: "(&(objectclass=inetOrgPerson)(objectclass=owncloud)(|(ownclouduuid={{.OpaqueId}})(uid={{.OpaqueId}})))"
+  #     STORAGE_LDAP_ATTRIBUTEFILTER: "(&(objectclass=owncloud)({{attr}}={{value}}))"
+  #     STORAGE_LDAP_FINDFILTER: "(&(objectclass=owncloud)(|(uid={{query}}*)(cn={{query}}*)(displayname={{query}}*)(mail={{query}}*)(description={{query}}*)))"
+  #     STORAGE_LDAP_GROUPFILTER: "(&(objectclass=groupOfUniqueNames)(objectclass=owncloud)(ownclouduuid={{.OpaqueId}}*))"
+  #     # ownCloud storage driver
+  #     STORAGE_HOME_DRIVER: owncloudsql
+  #     STORAGE_USERS_DRIVER: owncloudsql
+  #     STORAGE_DRIVER_OWNCLOUDSQL_DATADIR: /mnt/data/files
+  #     STORAGE_DRIVER_OWNCLOUDSQL_UPLOADINFO_DIR: /mnt/shared/
+  #     STORAGE_DRIVER_OWNCLOUDSQL_SHARE_FOLDER: "/Shares"
+  #     STORAGE_DRIVER_OWNCLOUDSQL_ENABLE_HOME: "false"
+  #     STORAGE_DRIVER_OWNCLOUDSQL_LAYOUT: "{{.Username}}"
+  #     STORAGE_DRIVER_OWNCLOUDSQL_DBUSERNAME: owncloud
+  #     STORAGE_DRIVER_OWNCLOUDSQL_DBPASSWORD: owncloud
+  #     STORAGE_DRIVER_OWNCLOUDSQL_DBHOST: oc10-db
+  #     STORAGE_DRIVER_OWNCLOUDSQL_DBPORT: 3306
+  #     STORAGE_DRIVER_OWNCLOUDSQL_DBNAME: owncloud
+  #     STORAGE_DRIVER_OWNCLOUD_REDIS_ADDR: redis:6379 # TODO: redis is not yet supported
+  #     # ownCloud storage readonly
+  #     OCIS_STORAGE_READ_ONLY: "false" # cannot be set to true -> https://github.com/owncloud/ocis/issues/2303
+  #     # General oCIS config
+  #     OCIS_LOG_LEVEL: ${OCIS_LOG_LEVEL:-error} # make oCIS less verbose
+  #     PROXY_OIDC_INSECURE: "${INSECURE:-false}" # needed if Traefik is using self generated certificates
+  #     PROXY_TLS: "false" # do not use SSL between Traefik and oCIS
+  #     # change default secrets
+  #     OCIS_JWT_SECRET: ${OCIS_JWT_SECRET:-Pive-Fumkiu4}
+  #   volumes:
+  #     - ./config/ocis/entrypoint-override.sh:/entrypoint-override.sh
+  #     - ./config/ocis/proxy-config.json:/config/proxy-config.json
+  #     - ocis-data:/var/tmp/ocis
+  #     # shared volume with oC10
+  #     - oc10-data:/mnt/data
+  #     - oc10-tmp:/tmp/shared
+  #   labels:
+  #     - "traefik.enable=true"
+  #     - "traefik.http.routers.ocis.entrypoints=https"
+  #     - "traefik.http.routers.ocis.rule=Host(`${OCIS_DOMAIN:-ocis.owncloud.test}`)"
+  #     - "traefik.http.routers.ocis.tls.certresolver=http"
+  #     - "traefik.http.routers.ocis.service=ocis"
+  #     - "traefik.http.services.ocis.loadbalancer.server.port=9200"
+  #   logging:
+  #     driver: "local"
+  #   restart: always
 
   openldap:
     image: osixia/openldap:latest
@@ -167,7 +166,7 @@ services:
       - ./config/keycloak/ocis-realm.dist.json:/opt/jboss/keycloak/ocis-realm.dist.json
     environment:
       OCIS_DOMAIN: ${OCIS_DOMAIN:-ocis.owncloud.test}
-      DB_VENDOR: POSTGRESprovider-url
+      DB_VENDOR: POSTGRES
       DB_ADDR: postgres
       DB_DATABASE: keycloak
       DB_USER: keycloak
@@ -184,7 +183,7 @@ services:
       - "traefik.http.routers.keycloak.tls.certresolver=http"
       - "traefik.http.routers.keycloak.service=keycloak"
       - "traefik.http.services.keycloak.loadbalancer.server.port=8080"
-      # TODO: get rid of that
+      # TODO: get rid of that -> needed by clients (Desktop, iOS, Android)
       # let ocis /.well-known/openid-configuration be served by Keycloak
       - "traefik.http.middlewares.ocis-idp-headers.headers.customrequestheaders.X-Forwarded-Host=${KEYCLOAK_DOMAIN:-keycloak.owncloud.test}"
       - "traefik.http.middlewares.ocis-idp-prefix.addprefix.prefix=/auth/realms/${KEYCLOAK_REALM:-oCIS}"
@@ -194,16 +193,16 @@ services:
       - "traefik.http.routers.ocis-idp-wellknown.rule=Host(`${OCIS_DOMAIN:-ocis.owncloud.test}`) && Path(`/.well-known/openid-configuration`)"
       - "traefik.http.routers.ocis-idp-wellknown.middlewares=ocis-idp-override"
       - "traefik.http.routers.ocis-idp-wellknown.service=keycloak"
-      # TODO: get rid of that
+      # TODO: is that needed by clients (Desktop, iOS, Android)???
       # let oc10 /.well-known/openid-configuration be served by Keycloak
-      - "traefik.http.middlewares.oc10-idp-headers.headers.customrequestheaders.X-Forwarded-Host=${KEYCLOAK_DOMAIN:-keycloak.owncloud.test}"
-      - "traefik.http.middlewares.oc10-idp-prefix.addprefix.prefix=/auth/realms/${KEYCLOAK_REALM:-oCIS}"
-      - "traefik.http.middlewares.oc10-idp-override.chain.middlewares=oc10-idp-headers,oc10-idp-prefix"
-      - "traefik.http.routers.oc10-idp-wellknown.entrypoints=https"
-      - "traefik.http.routers.oc10-idp-wellknown.tls.certresolver=http"
-      - "traefik.http.routers.oc10-idp-wellknown.rule=Host(`${OC10_DOMAIN:-oc10.owncloud.test}`) && Path(`/.well-known/openid-configuration`)"
-      - "traefik.http.routers.oc10-idp-wellknown.middlewares=oc10-idp-override"
-      - "traefik.http.routers.oc10-idp-wellknown.service=keycloak"
+      #- "traefik.http.middlewares.oc10-idp-headers.headers.customrequestheaders.X-Forwarded-Host=${KEYCLOAK_DOMAIN:-keycloak.owncloud.test}"
+      #- "traefik.http.middlewares.oc10-idp-prefix.addprefix.prefix=/auth/realms/${KEYCLOAK_REALM:-oCIS}"
+      #- "traefik.http.middlewares.oc10-idp-override.chain.middlewares=oc10-idp-headers,oc10-idp-prefix"
+      #- "traefik.http.routers.oc10-idp-wellknown.entrypoints=https"
+      #- "traefik.http.routers.oc10-idp-wellknown.tls.certresolver=http"
+      #- "traefik.http.routers.oc10-idp-wellknown.rule=Host(`${OC10_DOMAIN:-oc10.owncloud.test}`) && Path(`/.well-known/openid-configuration`)"
+      #- "traefik.http.routers.oc10-idp-wellknown.middlewares=oc10-idp-override"
+      #- "traefik.http.routers.oc10-idp-wellknown.service=keycloak"
     logging:
       driver: "local"
     restart: always
@@ -227,8 +226,12 @@ services:
     networks:
       ocis-net:
     environment:
-      OCIS_URL: https://${OCIS_DOMAIN:-ocis.owncloud.test}
-      OWNCLOUD_DOMAIN: ${OC10_DOMAIN:-oc10.owncloud.test}
+      # script / config variables
+      IDP_OIDC_ISSUER: https://${KEYCLOAK_DOMAIN:-keycloak.owncloud.test}/auth/realms/${KEYCLOAK_REALM:-oCIS}
+      OC10_DOMAIN: ${OC10_DOMAIN:-oc10.owncloud.test}
+      # ownCloud config
+      OWNCLOUD_CORS_ALLOWED_DOMAINS: https://${KEYCLOAK_DOMAIN:-keycloak.owncloud.test}
+      OWNCLOUD_HTTP_COOKIE_SAMESITE: None
       OWNCLOUD_DB_TYPE: mysql
       OWNCLOUD_DB_NAME: owncloud
       OWNCLOUD_DB_USERNAME: owncloud
@@ -246,9 +249,16 @@ services:
       OWNCLOUD_LOG_LEVEL: 0
       OWNCLOUD_LOG_FILE: /dev/stdout
     volumes:
-      - ./config/oc10/config.php:/etc/templates/config.php
+      # ldap config
       - ./config/oc10/ldap-sync-cron:/tmp/ldap-sync-cron
-      - ./config/oc10/ldap.sh:/etc/pre_server.d/10-ldap.sh
+      - ./config/oc10/10-ldap.sh:/etc/pre_server.d/10-ldap.sh
+      # oidc and web config
+      - ./config/oc10/oidc.config.php:/etc/templates/oidc.config.php
+      - ./config/oc10/web.config.php:/etc/templates/web.config.php
+      - ./config/oc10/web-config.tmpl.json:/etc/templates/web-config.tmpl.json
+      # config load script
+      - ./config/oc10/10-custom-config.sh:/etc/pre_server.d/10-custom-config.sh
+      # data persistence
       - oc10-data:/mnt/data
       - oc10-tmp:/tmp/shared
     labels:
