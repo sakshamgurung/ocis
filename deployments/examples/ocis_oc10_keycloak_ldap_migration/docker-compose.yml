@@ -10,13 +10,19 @@ services:
           - ${OCIS_DOMAIN:-ocis.owncloud.test}
           - ${KEYCLOAK_DOMAIN:-keycloak.owncloud.test}
     command:
-      #- "--log.level=DEBUG"
+      - "--log.level=${TRAEFIK_LOG_LEVEL:-ERROR}"
+      # letsencrypt configuration
       - "--certificatesResolvers.http.acme.email=${TRAEFIK_ACME_MAIL:-example@example.org}"
       - "--certificatesResolvers.http.acme.storage=/certs/acme.json"
       - "--certificatesResolvers.http.acme.httpChallenge.entryPoint=http"
+      # enable dasbhoard
       - "--api.dashboard=true"
+      # define entrypoints
       - "--entryPoints.http.address=:80"
+      - "--entryPoints.http.http.redirections.entryPoint.to=https"
+      - "--entryPoints.http.http.redirections.entryPoint.scheme=https"
       - "--entryPoints.https.address=:443"
+      # docker provider (get configuration from container labels)
       - "--providers.docker.endpoint=unix:///var/run/docker.sock"
       - "--providers.docker.exposedByDefault=false"
     ports:
@@ -27,17 +33,12 @@ services:
       - "certs:/certs"
     labels:
       - "traefik.enable=${TRAEFIK_DASHBOARD:-false}"
-      - "traefik.http.routers.traefik.entrypoints=http"
-      - "traefik.http.routers.traefik.rule=Host(`${TRAEFIK_DOMAIN:-traefik.owncloud.test}`)"
       - "traefik.http.middlewares.traefik-auth.basicauth.users=${TRAEFIK_BASIC_AUTH_USERS:-admin:$apr1$4vqie50r$YQAmQdtmz5n9rEALhxJ4l.}" # defaults to admin:admin
-      - "traefik.http.middlewares.traefik-https-redirect.redirectscheme.scheme=https"
-      - "traefik.http.routers.traefik.middlewares=traefik-https-redirect"
-      - "traefik.http.routers.traefik-secure.entrypoints=https"
-      - "traefik.http.routers.traefik-secure.rule=Host(`${TRAEFIK_DOMAIN:-traefik.owncloud.test}`)"
-      - "traefik.http.routers.traefik-secure.middlewares=traefik-auth"
-      - "traefik.http.routers.traefik-secure.tls=true"
-      - "traefik.http.routers.traefik-secure.tls.certresolver=http"
-      - "traefik.http.routers.traefik-secure.service=api@internal"
+      - "traefik.http.routers.traefik.entrypoints=https"
+      - "traefik.http.routers.traefik.rule=Host(`${TRAEFIK_DOMAIN:-traefik.owncloud.test}`)"
+      - "traefik.http.routers.traefik.middlewares=traefik-auth"
+      - "traefik.http.routers.traefik.tls.certresolver=http"
+      - "traefik.http.routers.traefik.service=api@internal"
     logging:
       driver: "local"
     restart: always
@@ -92,7 +93,7 @@ services:
       STORAGE_DRIVER_OWNCLOUDSQL_DBHOST: oc10-db
       STORAGE_DRIVER_OWNCLOUDSQL_DBPORT: 3306
       STORAGE_DRIVER_OWNCLOUDSQL_DBNAME: owncloud
-      STORAGE_DRIVER_OWNCLOUD_REDIS_ADDR: redis:6379
+      STORAGE_DRIVER_OWNCLOUD_REDIS_ADDR: redis:6379 # TODO: redis is not yet supported
       # ownCloud storage readonly
       OCIS_STORAGE_READ_ONLY: "false" # cannot be set to true -> https://github.com/owncloud/ocis/issues/2303
       # General oCIS config
@@ -111,15 +112,10 @@ services:
       - oc10-tmp:/tmp/shared
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.ocis.entrypoints=http"
+      - "traefik.http.routers.ocis.entrypoints=https"
       - "traefik.http.routers.ocis.rule=Host(`${OCIS_DOMAIN:-ocis.owncloud.test}`)"
-      - "traefik.http.middlewares.ocis-https-redirect.redirectscheme.scheme=https"
-      - "traefik.http.routers.ocis.middlewares=ocis-https-redirect"
-      - "traefik.http.routers.ocis-secure.entrypoints=https"
-      - "traefik.http.routers.ocis-secure.rule=Host(`${OCIS_DOMAIN:-ocis.owncloud.test}`)"
-      - "traefik.http.routers.ocis-secure.tls=true"
-      - "traefik.http.routers.ocis-secure.tls.certresolver=http"
-      - "traefik.http.routers.ocis-secure.service=ocis"
+      - "traefik.http.routers.ocis.tls.certresolver=http"
+      - "traefik.http.routers.ocis.service=ocis"
       - "traefik.http.services.ocis.loadbalancer.server.port=9200"
     logging:
       driver: "local"
@@ -137,9 +133,6 @@ services:
       LDAP_ADMIN_PASSWORD: ${LDAP_ADMIN_PASSWORD:-admin}
       LDAP_RFC2307BIS_SCHEMA: "true"
       LDAP_REMOVE_CONFIG_AFTER_SETUP: "false"
-    ports:
-      - "127.0.0.1:389:389"
-      - "127.0.0.1:636:636"
     volumes:
       - ./config/ldap/ldif:/container/service/slapd/assets/config/bootstrap/ldif/custom
     logging:
@@ -155,15 +148,10 @@ services:
       PHPLDAPADMIN_HTTPS: "false"
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.ldap-manager.entrypoints=http"
+      - "traefik.http.routers.ldap-manager.entrypoints=https"
       - "traefik.http.routers.ldap-manager.rule=Host(`${LDAP_MANAGER_DOMAIN:-ldap.owncloud.test}`)"
-      - "traefik.http.middlewares.ldap-manager-https-redirect.redirectscheme.scheme=https"
-      - "traefik.http.routers.ldap-manager.middlewares=ldap-manager-https-redirect"
-      - "traefik.http.routers.ldap-manager-secure.entrypoints=https"
-      - "traefik.http.routers.ldap-manager-secure.rule=Host(`${LDAP_MANAGER_DOMAIN:-ldap.owncloud.test}`)"
-      - "traefik.http.routers.ldap-manager-secure.tls=true"
-      - "traefik.http.routers.ldap-manager-secure.tls.certresolver=http"
-      - "traefik.http.routers.ldap-manager-secure.service=ldap-manager"
+      - "traefik.http.routers.ldap-manager.tls.certresolver=http"
+      - "traefik.http.routers.ldap-manager.service=ldap-manager"
       - "traefik.http.services.ldap-manager.loadbalancer.server.port=80"
     logging:
       driver: "local"
@@ -179,7 +167,7 @@ services:
       - ./config/keycloak/ocis-realm.dist.json:/opt/jboss/keycloak/ocis-realm.dist.json
     environment:
       OCIS_DOMAIN: ${OCIS_DOMAIN:-ocis.owncloud.test}
-      DB_VENDOR: POSTGRES
+      DB_VENDOR: POSTGRESprovider-url
       DB_ADDR: postgres
       DB_DATABASE: keycloak
       DB_USER: keycloak
@@ -191,28 +179,31 @@ services:
       KEYCLOAK_IMPORT: /opt/jboss/keycloak/ocis-realm.json
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.keycloak.entrypoints=http"
+      - "traefik.http.routers.keycloak.entrypoints=https"
       - "traefik.http.routers.keycloak.rule=Host(`${KEYCLOAK_DOMAIN:-keycloak.owncloud.test}`)"
-      - "traefik.http.middlewares.keycloak-https-redirect.redirectscheme.scheme=https"
-      - "traefik.http.routers.keycloak.middlewares=keycloak-https-redirect"
-      - "traefik.http.routers.keycloak-secure.entrypoints=https"
-      - "traefik.http.routers.keycloak-secure.rule=Host(`${KEYCLOAK_DOMAIN:-keycloak.owncloud.test}`)"
-      - "traefik.http.routers.keycloak-secure.tls=true"
-      - "traefik.http.routers.keycloak-secure.tls.certresolver=http"
-      - "traefik.http.routers.keycloak-secure.service=keycloak"
+      - "traefik.http.routers.keycloak.tls.certresolver=http"
+      - "traefik.http.routers.keycloak.service=keycloak"
       - "traefik.http.services.keycloak.loadbalancer.server.port=8080"
-      - "traefik.http.services.keycloak.loadbalancer.server.scheme=http"
       # TODO: get rid of that
-      # let /.well-known/openid-configuration be served by Keycloak
-      - "traefik.http.routers.ocis-idp-wellknown-secure.entrypoints=https"
-      - "traefik.http.routers.ocis-idp-wellknown-secure.tls=true"
-      - "traefik.http.routers.ocis-idp-wellknown-secure.tls.certresolver=http"
-      - "traefik.http.routers.ocis-idp-wellknown-secure.rule=Host(`${OCIS_DOMAIN:-ocis.owncloud.test}`) && Path(`/.well-known/openid-configuration`)"
+      # let ocis /.well-known/openid-configuration be served by Keycloak
       - "traefik.http.middlewares.ocis-idp-headers.headers.customrequestheaders.X-Forwarded-Host=${KEYCLOAK_DOMAIN:-keycloak.owncloud.test}"
       - "traefik.http.middlewares.ocis-idp-prefix.addprefix.prefix=/auth/realms/${KEYCLOAK_REALM:-oCIS}"
       - "traefik.http.middlewares.ocis-idp-override.chain.middlewares=ocis-idp-headers,ocis-idp-prefix"
-      - "traefik.http.routers.ocis-idp-wellknown-secure.middlewares=ocis-idp-override"
-      - "traefik.http.routers.ocis-idp-wellknown-secure.service=keycloak"
+      - "traefik.http.routers.ocis-idp-wellknown.entrypoints=https"
+      - "traefik.http.routers.ocis-idp-wellknown.tls.certresolver=http"
+      - "traefik.http.routers.ocis-idp-wellknown.rule=Host(`${OCIS_DOMAIN:-ocis.owncloud.test}`) && Path(`/.well-known/openid-configuration`)"
+      - "traefik.http.routers.ocis-idp-wellknown.middlewares=ocis-idp-override"
+      - "traefik.http.routers.ocis-idp-wellknown.service=keycloak"
+      # TODO: get rid of that
+      # let oc10 /.well-known/openid-configuration be served by Keycloak
+      - "traefik.http.middlewares.oc10-idp-headers.headers.customrequestheaders.X-Forwarded-Host=${KEYCLOAK_DOMAIN:-keycloak.owncloud.test}"
+      - "traefik.http.middlewares.oc10-idp-prefix.addprefix.prefix=/auth/realms/${KEYCLOAK_REALM:-oCIS}"
+      - "traefik.http.middlewares.oc10-idp-override.chain.middlewares=oc10-idp-headers,oc10-idp-prefix"
+      - "traefik.http.routers.oc10-idp-wellknown.entrypoints=https"
+      - "traefik.http.routers.oc10-idp-wellknown.tls.certresolver=http"
+      - "traefik.http.routers.oc10-idp-wellknown.rule=Host(`${OC10_DOMAIN:-oc10.owncloud.test}`) && Path(`/.well-known/openid-configuration`)"
+      - "traefik.http.routers.oc10-idp-wellknown.middlewares=oc10-idp-override"
+      - "traefik.http.routers.oc10-idp-wellknown.service=keycloak"
     logging:
       driver: "local"
     restart: always
@@ -236,7 +227,6 @@ services:
     networks:
       ocis-net:
     environment:
-      PROXY_LOG_LEVEL: debug
       OCIS_URL: https://${OCIS_DOMAIN:-ocis.owncloud.test}
       OWNCLOUD_DOMAIN: ${OC10_DOMAIN:-oc10.owncloud.test}
       OWNCLOUD_DB_TYPE: mysql
@@ -263,27 +253,11 @@ services:
       - oc10-tmp:/tmp/shared
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.oc10.entrypoints=http"
+      - "traefik.http.routers.oc10.entrypoints=https"
       - "traefik.http.routers.oc10.rule=Host(`${OC10_DOMAIN:-oc10.owncloud.test}`)"
-      - "traefik.http.middlewares.oc10-https-redirect.redirectscheme.scheme=https"
-      - "traefik.http.routers.oc10.middlewares=oc10-https-redirect"
-      - "traefik.http.routers.oc10-secure.entrypoints=https"
-      - "traefik.http.routers.oc10-secure.rule=Host(`${OC10_DOMAIN:-oc10.owncloud.test}`)"
-      - "traefik.http.routers.oc10-secure.tls=true"
-      - "traefik.http.routers.oc10-secure.tls.certresolver=http"
-      - "traefik.http.routers.oc10-secure.service=oc10"
+      - "traefik.http.routers.oc10.tls.certresolver=http"
+      - "traefik.http.routers.oc10.service=oc10"
       - "traefik.http.services.oc10.loadbalancer.server.port=8080"
-      # TODO: get rid of that
-      # let /.well-known/openid-configuration be served by Keycloak
-      - "traefik.http.routers.oc10-idp-wellknown-secure.entrypoints=https"
-      - "traefik.http.routers.oc10-idp-wellknown-secure.tls=true"
-      - "traefik.http.routers.oc10-idp-wellknown-secure.tls.certresolver=http"
-      - "traefik.http.routers.oc10-idp-wellknown-secure.rule=Host(`${OC10_DOMAIN:-oc10.owncloud.test}`) && Path(`/.well-known/openid-configuration`)"
-      - "traefik.http.middlewares.oc10-idp-headers.headers.customrequestheaders.X-Forwarded-Host=${KEYCLOAK_DOMAIN:-keycloak.owncloud.test}"
-      - "traefik.http.middlewares.oc10-idp-prefix.addprefix.prefix=/auth/realms/${KEYCLOAK_REALM:-oCIS}"
-      - "traefik.http.middlewares.oc10-idp-override.chain.middlewares=oc10-idp-headers,oc10-idp-prefix"
-      - "traefik.http.routers.oc10-idp-wellknown-secure.middlewares=oc10-idp-override"
-      - "traefik.http.routers.oc10-idp-wellknown-secure.service=keycloak"
     logging:
       driver: "local"
     restart: always
