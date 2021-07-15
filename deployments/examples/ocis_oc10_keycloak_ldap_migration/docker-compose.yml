@@ -10,7 +10,7 @@ services:
           - ${OCIS_DOMAIN:-ocis.owncloud.test}
           - ${KEYCLOAK_DOMAIN:-keycloak.owncloud.test}
     command:
-      - "--log.level=DEBUG"
+      #- "--log.level=DEBUG"
       - "--certificatesResolvers.http.acme.email=${TRAEFIK_ACME_MAIL:-example@example.org}"
       - "--certificatesResolvers.http.acme.storage=/certs/acme.json"
       - "--certificatesResolvers.http.acme.httpChallenge.entryPoint=http"
@@ -202,16 +202,17 @@ services:
       - "traefik.http.routers.keycloak-secure.service=keycloak"
       - "traefik.http.services.keycloak.loadbalancer.server.port=8080"
       - "traefik.http.services.keycloak.loadbalancer.server.scheme=http"
+      # TODO: get rid of that
       # let /.well-known/openid-configuration be served by Keycloak
-      - "traefik.http.routers.idp-wellknown-secure.entrypoints=https"
-      - "traefik.http.routers.idp-wellknown-secure.tls=true"
-      - "traefik.http.routers.idp-wellknown-secure.tls.certresolver=http"
-      - "traefik.http.routers.idp-wellknown-secure.rule=Host(`${OCIS_DOMAIN:-ocis.owncloud.test}`) && Path(`/.well-known/openid-configuration`)"
-      - "traefik.http.middlewares.idp-headers.headers.customrequestheaders.X-Forwarded-Host=${KEYCLOAK_DOMAIN:-keycloak.owncloud.test}"
-      - "traefik.http.middlewares.idp-prefix.addprefix.prefix=/auth/realms/${KEYCLOAK_REALM:-oCIS}"
-      - "traefik.http.middlewares.idp-override.chain.middlewares=idp-headers,idp-prefix"
-      - "traefik.http.routers.idp-wellknown-secure.middlewares=idp-override"
-      - "traefik.http.routers.idp-wellknown-secure.service=keycloak"
+      - "traefik.http.routers.ocis-idp-wellknown-secure.entrypoints=https"
+      - "traefik.http.routers.ocis-idp-wellknown-secure.tls=true"
+      - "traefik.http.routers.ocis-idp-wellknown-secure.tls.certresolver=http"
+      - "traefik.http.routers.ocis-idp-wellknown-secure.rule=Host(`${OCIS_DOMAIN:-ocis.owncloud.test}`) && Path(`/.well-known/openid-configuration`)"
+      - "traefik.http.middlewares.ocis-idp-headers.headers.customrequestheaders.X-Forwarded-Host=${KEYCLOAK_DOMAIN:-keycloak.owncloud.test}"
+      - "traefik.http.middlewares.ocis-idp-prefix.addprefix.prefix=/auth/realms/${KEYCLOAK_REALM:-oCIS}"
+      - "traefik.http.middlewares.ocis-idp-override.chain.middlewares=ocis-idp-headers,ocis-idp-prefix"
+      - "traefik.http.routers.ocis-idp-wellknown-secure.middlewares=ocis-idp-override"
+      - "traefik.http.routers.ocis-idp-wellknown-secure.service=keycloak"
     logging:
       driver: "local"
     restart: always
@@ -272,6 +273,17 @@ services:
       - "traefik.http.routers.oc10-secure.tls.certresolver=http"
       - "traefik.http.routers.oc10-secure.service=oc10"
       - "traefik.http.services.oc10.loadbalancer.server.port=8080"
+      # TODO: get rid of that
+      # let /.well-known/openid-configuration be served by Keycloak
+      - "traefik.http.routers.oc10-idp-wellknown-secure.entrypoints=https"
+      - "traefik.http.routers.oc10-idp-wellknown-secure.tls=true"
+      - "traefik.http.routers.oc10-idp-wellknown-secure.tls.certresolver=http"
+      - "traefik.http.routers.oc10-idp-wellknown-secure.rule=Host(`${OC10_DOMAIN:-oc10.owncloud.test}`) && Path(`/.well-known/openid-configuration`)"
+      - "traefik.http.middlewares.oc10-idp-headers.headers.customrequestheaders.X-Forwarded-Host=${KEYCLOAK_DOMAIN:-keycloak.owncloud.test}"
+      - "traefik.http.middlewares.oc10-idp-prefix.addprefix.prefix=/auth/realms/${KEYCLOAK_REALM:-oCIS}"
+      - "traefik.http.middlewares.oc10-idp-override.chain.middlewares=oc10-idp-headers,oc10-idp-prefix"
+      - "traefik.http.routers.oc10-idp-wellknown-secure.middlewares=oc10-idp-override"
+      - "traefik.http.routers.oc10-idp-wellknown-secure.service=keycloak"
     logging:
       driver: "local"
     restart: always
