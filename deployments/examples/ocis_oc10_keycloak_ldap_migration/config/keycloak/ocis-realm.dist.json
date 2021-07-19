@@ -261,7 +261,7 @@
         "attributes" : { }
       } ],
       "xdXOt13JKxym1B1QcEncf2XDkLAexMBFwiT9j6EfhhHFJhs2KM9jbjTmf8JBXE69" : [ ],
-      "web" : [ ],
+      "ocis-web" : [ ],
       "admin-cli" : [ ],
       "oc10-web" : [ ],
       "account" : [ {
@@ -788,7 +788,7 @@
     "optionalClientScopes" : [ ]
   }, {
     "id" : "54b18eca-cf79-4263-9db9-2d79f8a1c831",
-    "clientId" : "web",
+    "clientId" : "ocis-web",
     "rootUrl" : "https://ocis.owncloud.test",
     "adminUrl" : "https://ocis.owncloud.test",
     "baseUrl" : "",

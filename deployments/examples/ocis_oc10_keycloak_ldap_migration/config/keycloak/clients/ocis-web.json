@@ -1,5 +1,5 @@
 {
-    "clientId": "web",
+    "clientId": "ocis-web",
     "rootUrl": "https://ocis.owncloud.test",
     "adminUrl": "https://ocis.owncloud.test",
     "surrogateAuthRequired": false,
