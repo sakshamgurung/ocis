@@ -1,17 +1,17 @@
 {
     "clientId": "oc10",
-    "rootUrl": "https://oc10.owncloud.test",
-    "adminUrl": "https://oc10.owncloud.test",
+    "rootUrl": "https://cloud.owncloud.test",
+    "adminUrl": "https://cloud.owncloud.test",
     "surrogateAuthRequired": false,
     "enabled": true,
     "alwaysDisplayInConsole": false,
     "clientAuthenticatorType": "client-secret",
     "secret" : "super",
     "redirectUris": [
-        "https://oc10.owncloud.test/*"
+        "https://cloud.owncloud.test/*"
     ],
     "webOrigins": [
-        "https://oc10.owncloud.test"
+        "https://cloud.owncloud.test"
     ],
     "notBefore": 0,
     "bearerOnly": false,

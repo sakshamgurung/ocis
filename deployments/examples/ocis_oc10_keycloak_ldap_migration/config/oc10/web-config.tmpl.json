@@ -1,5 +1,5 @@
 {
-  "server": "https://{{ .Env.OC10_DOMAIN }}",
+  "server": "https://{{ .Env.CLOUD_DOMAIN }}",
   "theme": "owncloud",
   "openIdConnect": {
     "metadata_url": "{{ .Env.IDP_OIDC_ISSUER }}/.well-known/openid-configuration",
@@ -19,7 +19,7 @@
         "fr": "Fichiers",
         "zh_CN": "文件"
       },
-      "url": "https://{{ .Env.OC10_DOMAIN }}/index.php/apps/files"
+      "url": "https://{{ .Env.CLOUD_DOMAIN }}/index.php/apps/files"
     },
     {
       "icon": "application",
@@ -29,7 +29,7 @@
         "de": "Einstellungen",
         "en": "Settings"
       },
-      "url": "https://{{ .Env.OC10_DOMAIN }}/index.php/settings/personal"
+      "url": "https://{{ .Env.CLOUD_DOMAIN }}/index.php/settings/personal"
     }
   ]
 }

@@ -14,7 +14,7 @@ function getOIDCConfigFromEnv()
             'mode' => 'userid',
             'autoRedirectOnLoginPage' => true,
             'insecure' => true,
-            'post_logout_redirect_uri' => 'https://' . getenv('OC10_DOMAIN'),
+            'post_logout_redirect_uri' => 'https://' . getenv('CLOUD_DOMAIN'),
         ],
     ];
     return $config;

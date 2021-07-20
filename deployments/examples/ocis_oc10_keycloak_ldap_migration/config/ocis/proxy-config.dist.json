@@ -1,10 +1,24 @@
 {
-  "HTTP": {
-    "Namespace": "com.owncloud"
+  "log": {
+    "level": "debug",
+    "color": false,
+    "pretty": false
   },
+  "http": {
+    "Namespace": "com.owncloud",
+    "addr": "0.0.0.0:9200",
+    "root": "/",
+    "tls": false
+  },
+  "enablebasicauth": "true",
+  "accountbackend": "cs3",
   "policy_selector": {
-    "static": {
-      "policy": "ocis"
+    "regex": {
+      "default_policy": "oc10",
+      "matches_policies": [
+        {"priority": 30, "property": "username", "match": "(einstein|richard)", "policy": "ocis"}
+      ],
+      "unauthenticated_policy": "ocis"
     }
   },
   "policies": [
@@ -92,6 +106,27 @@
         {
           "endpoint": "/onlyoffice.js",
           "backend": "http://localhost:9220"
+        },
+        {
+          "endpoint": "/index.php/apps",
+          "backend": "http://oc10:8080"
+        },
+        {
+          "endpoint": "/apps",
+          "backend": "http://oc10:8080"
+        },
+        {
+          "endpoint": "/core",
+          "backend": "http://oc10:8080"
+        }
+      ]
+    },
+    {
+      "name": "oc10",
+      "routes": [
+        {
+          "endpoint": "/",
+          "backend": "http://oc10:8080"
         }
       ]
     }

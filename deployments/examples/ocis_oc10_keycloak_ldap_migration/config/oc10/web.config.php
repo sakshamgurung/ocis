@@ -5,7 +5,7 @@
 function getWebConfigFromEnv()
 {
     $config = [
-        'web.baseUrl' => 'https://' . getenv('OC10_DOMAIN') . '/index.php/apps/web',
+        'web.baseUrl' => 'https://' . getenv('CLOUD_DOMAIN') . '/index.php/apps/web',
         'web.rewriteLinks' => getenv('OWNCLOUD_WEB_REWRITE_LINKS') == 'true',
 
     ];

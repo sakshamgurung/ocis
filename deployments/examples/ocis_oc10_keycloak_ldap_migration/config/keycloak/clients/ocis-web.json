@@ -1,16 +1,16 @@
 {
     "clientId": "ocis-web",
-    "rootUrl": "https://ocis.owncloud.test",
-    "adminUrl": "https://ocis.owncloud.test",
+    "rootUrl": "https://cloud.owncloud.test",
+    "adminUrl": "https://cloud.owncloud.test",
     "surrogateAuthRequired": false,
     "enabled": true,
     "alwaysDisplayInConsole": false,
     "clientAuthenticatorType": "client-secret",
     "redirectUris": [
-        "https://ocis.owncloud.test/*"
+        "https://cloud.owncloud.test/*"
     ],
     "webOrigins": [
-        "https://ocis.owncloud.test"
+        "https://cloud.owncloud.test"
     ],
     "notBefore": 0,
     "bearerOnly": false,
