@@ -18,7 +18,7 @@
       "matches_policies": [
         {"priority": 30, "property": "username", "match": "(einstein|richard)", "policy": "ocis"}
       ],
-      "unauthenticated_policy": "ocis"
+      "unauthenticated_policy": "oc10"
     }
   },
   "policies": [
@@ -106,18 +106,6 @@
         {
           "endpoint": "/onlyoffice.js",
           "backend": "http://localhost:9220"
-        },
-        {
-          "endpoint": "/index.php/apps",
-          "backend": "http://oc10:8080"
-        },
-        {
-          "endpoint": "/apps",
-          "backend": "http://oc10:8080"
-        },
-        {
-          "endpoint": "/core",
-          "backend": "http://oc10:8080"
         }
       ]
     },
