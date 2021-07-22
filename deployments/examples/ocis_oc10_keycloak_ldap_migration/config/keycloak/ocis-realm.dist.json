@@ -673,7 +673,7 @@
     "enabled" : true,
     "alwaysDisplayInConsole" : false,
     "clientAuthenticatorType" : "client-secret",
-    "redirectUris" : [ "https://cloud.owncloud.test/index.php/apps/web/*", "https://cloud.owncloud.test/**" ],
+    "redirectUris" : [ "https://cloud.owncloud.test/*" ],
     "webOrigins" : [ "https://cloud.owncloud.test" ],
     "notBefore" : 0,
     "bearerOnly" : false,

@@ -7,8 +7,7 @@
     "alwaysDisplayInConsole": false,
     "clientAuthenticatorType": "client-secret",
     "redirectUris": [
-        "https://cloud.owncloud.test/index.php/apps/web/*",
-        "https://cloud.owncloud.test/**"
+        "https://cloud.owncloud.test/*"
     ],
     "webOrigins": [
         "https://cloud.owncloud.test"
