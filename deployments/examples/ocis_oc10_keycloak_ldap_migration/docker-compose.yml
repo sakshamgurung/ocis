@@ -3,7 +3,7 @@ version: "3.7"
 
 services:
   traefik:
-    image: traefik:v2.4
+    image: traefik:v2.5
     networks:
       ocis-net:
         aliases:
@@ -58,7 +58,7 @@ services:
       WEB_OIDC_METADATA_URL: https://${KEYCLOAK_DOMAIN:-keycloak.owncloud.test}/auth/realms/${KEYCLOAK_REALM:-owncloud}/.well-known/openid-configuration
       STORAGE_OIDC_ISSUER: https://${KEYCLOAK_DOMAIN:-keycloak.owncloud.test}
       STORAGE_LDAP_IDP: https://${KEYCLOAK_DOMAIN:-keycloak.owncloud.test}/auth/realms/${KEYCLOAK_REALM:-owncloud}
-      #WEB_OIDC_SCOPE: openid profile email owncloudUUID #TODO: extend scope
+      WEB_OIDC_SCOPE: openid profile email # ownclouduuid  #TODO: extend scope
       # LDAP bind
       STORAGE_LDAP_HOSTNAME: openldap
       STORAGE_LDAP_PORT: 636
@@ -99,13 +99,13 @@ services:
       STORAGE_DRIVER_OWNCLOUDSQL_DBHOST: oc10-db
       STORAGE_DRIVER_OWNCLOUDSQL_DBPORT: 3306
       STORAGE_DRIVER_OWNCLOUDSQL_DBNAME: owncloud
-      #STORAGE_DRIVER_OWNCLOUDSQL_REDIS_ADDR: redis:6379 # TODO: redis is not yet supported
+      STORAGE_DRIVER_OWNCLOUDSQL_REDIS_ADDR: redis:6379 # TODO: redis is not yet supported
       # ownCloud storage readonly
       OCIS_STORAGE_READ_ONLY: "false" # TODO: conflict with OWNCLOUDSQL -> https://github.com/owncloud/ocis/issues/2303
       # General oCIS config
       OCIS_LOG_LEVEL: ${OCIS_LOG_LEVEL:-error} # make oCIS less verbose
       PROXY_LOG_LEVEL: ${PROXY_LOG_LEVEL:-error}
-      OCIS_URL: https://${CLOUD_DOMAIn:-cloud.owncloud.test}
+      OCIS_URL: https://${CLOUD_DOMAIN:-cloud.owncloud.test}
       PROXY_OIDC_INSECURE: "${INSECURE:-false}" # needed if Traefik is using self generated certificates
       PROXY_TLS: "false" # do not use SSL between Traefik and oCIS
       PROXY_CONFIG_FILE: "/config/proxy-config.json"
@@ -130,7 +130,7 @@ services:
     restart: always
 
   oc10:
-    image: owncloud/server:10.8.0-rc1
+    image: owncloud/server:${OC10_DOCKER_TAG:-latest}
     networks:
       ocis-net:
     environment:
@@ -205,7 +205,7 @@ services:
       CLOUD_DOMAIN: ${CLOUD_DOMAIN:-cloud.owncloud.test}
       OC10_OIDC_CLIENT_SECRET: ${OC10_OIDC_CLIENT_SECRET:-oc10-oidc-secret}
       DB_VENDOR: POSTGRES
-      DB_ADDR: postgres
+      DB_ADDR: keycloak-db
       DB_DATABASE: keycloak
       DB_USER: keycloak
       DB_SCHEMA: public
@@ -272,7 +272,7 @@ services:
       driver: "local"
     restart: always
 
-  postgres:
+  keycloak-db:
     image: postgres:alpine
     networks:
       ocis-net:
