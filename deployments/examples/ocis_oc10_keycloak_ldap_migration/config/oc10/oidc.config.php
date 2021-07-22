@@ -8,7 +8,7 @@ function getOIDCConfigFromEnv()
         'openid-connect' => [
             'provider-url' => getenv('IDP_OIDC_ISSUER'),
             'client-id' => 'oc10',
-            'client-secret' => 'super',
+            'client-secret' => getenv('IDP_OIDC_CLIENT_SECRET'),
             'loginButtonName' => 'OpenId Connect',
             'search-attribute' => 'preferred_username',
             'mode' => 'userid',

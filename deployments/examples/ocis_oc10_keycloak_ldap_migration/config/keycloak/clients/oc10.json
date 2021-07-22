@@ -6,7 +6,7 @@
     "enabled": true,
     "alwaysDisplayInConsole": false,
     "clientAuthenticatorType": "client-secret",
-    "secret" : "super",
+    "secret" : "oc10-oidc-secret",
     "redirectUris": [
         "https://cloud.owncloud.test/*"
     ],

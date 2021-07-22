@@ -134,8 +134,12 @@ services:
     networks:
       ocis-net:
     environment:
+      # make ownCloud Web the default frontend
+      OWNCLOUD_DEFAULT_APP: ${OWNCLOUD_DEFAULT_APP:-files} # can be switched to "web"
+      OWNCLOUD_WEB_REWRITE_LINKS: ${OWNCLOUD_WEB_REWRITE_LINKS:-false}
       # script / config variables
       IDP_OIDC_ISSUER: https://${KEYCLOAK_DOMAIN:-keycloak.owncloud.test}/auth/realms/${KEYCLOAK_REALM:-oCIS}
+      IDP_OIDC_CLIENT_SECRET: ${OC10_OIDC_CLIENT_SECRET:-oc10-oidc-secret}
       CLOUD_DOMAIN: ${CLOUD_DOMAIN:-cloud.owncloud.test}
       # LDAP bind configuration
       LDAP_HOST: "openldap"
@@ -154,14 +158,6 @@ services:
       LDAP_USER_SCHEMA_MAIL: "mail"
       LDAP_USERFILTER: "(&(objectclass=owncloud))"
       LDAP_GROUP_MEMBER_ASSOC_ATTR: "uniqueMember"
-
-      # frontend
-      OWNCLOUD_DEFAULT_APP: files #web # default is files
-      OWNCLOUD_WEB_REWRITE_LINKS: "true"
-
-      # security
-      #OWNCLOUD_TOKEN_AUTH_ENFORCED: "true"
-
       # ownCloud config
       OWNCLOUD_DB_TYPE: mysql
       OWNCLOUD_DB_NAME: owncloud
@@ -207,6 +203,7 @@ services:
       - ./config/keycloak/ocis-realm.dist.json:/opt/jboss/keycloak/ocis-realm.dist.json
     environment:
       CLOUD_DOMAIN: ${CLOUD_DOMAIN:-cloud.owncloud.test}
+      OC10_OIDC_CLIENT_SECRET: ${OC10_OIDC_CLIENT_SECRET:-oc10-oidc-secret}
       DB_VENDOR: POSTGRES
       DB_ADDR: postgres
       DB_DATABASE: keycloak
