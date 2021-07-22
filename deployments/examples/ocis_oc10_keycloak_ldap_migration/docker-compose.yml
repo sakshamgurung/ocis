@@ -52,12 +52,12 @@ services:
       ocis-net:
     environment:
       # Keycloak IDP specific configuration
-      PROXY_OIDC_ISSUER: https://${KEYCLOAK_DOMAIN:-keycloak.owncloud.test}/auth/realms/${KEYCLOAK_REALM:-oCIS}
-      WEB_OIDC_AUTHORITY: https://${KEYCLOAK_DOMAIN:-keycloak.owncloud.test}/auth/realms/${KEYCLOAK_REALM:-oCIS}
+      PROXY_OIDC_ISSUER: https://${KEYCLOAK_DOMAIN:-keycloak.owncloud.test}/auth/realms/${KEYCLOAK_REALM:-owncloud}
+      WEB_OIDC_AUTHORITY: https://${KEYCLOAK_DOMAIN:-keycloak.owncloud.test}/auth/realms/${KEYCLOAK_REALM:-owncloud}
       WEB_OIDC_CLIENT_ID: ${OCIS_OIDC_CLIENT_ID:-ocis-web}
-      WEB_OIDC_METADATA_URL: https://${KEYCLOAK_DOMAIN:-keycloak.owncloud.test}/auth/realms/${KEYCLOAK_REALM:-oCIS}/.well-known/openid-configuration
+      WEB_OIDC_METADATA_URL: https://${KEYCLOAK_DOMAIN:-keycloak.owncloud.test}/auth/realms/${KEYCLOAK_REALM:-owncloud}/.well-known/openid-configuration
       STORAGE_OIDC_ISSUER: https://${KEYCLOAK_DOMAIN:-keycloak.owncloud.test}
-      STORAGE_LDAP_IDP: https://${KEYCLOAK_DOMAIN:-keycloak.owncloud.test}/auth/realms/${KEYCLOAK_REALM:-oCIS}
+      STORAGE_LDAP_IDP: https://${KEYCLOAK_DOMAIN:-keycloak.owncloud.test}/auth/realms/${KEYCLOAK_REALM:-owncloud}
       #WEB_OIDC_SCOPE: openid profile email owncloudUUID #TODO: extend scope
       # LDAP bind
       STORAGE_LDAP_HOSTNAME: openldap
@@ -138,7 +138,7 @@ services:
       OWNCLOUD_DEFAULT_APP: ${OWNCLOUD_DEFAULT_APP:-files} # can be switched to "web"
       OWNCLOUD_WEB_REWRITE_LINKS: ${OWNCLOUD_WEB_REWRITE_LINKS:-false}
       # script / config variables
-      IDP_OIDC_ISSUER: https://${KEYCLOAK_DOMAIN:-keycloak.owncloud.test}/auth/realms/${KEYCLOAK_REALM:-oCIS}
+      IDP_OIDC_ISSUER: https://${KEYCLOAK_DOMAIN:-keycloak.owncloud.test}/auth/realms/${KEYCLOAK_REALM:-owncloud}
       IDP_OIDC_CLIENT_SECRET: ${OC10_OIDC_CLIENT_SECRET:-oc10-oidc-secret}
       CLOUD_DOMAIN: ${CLOUD_DOMAIN:-cloud.owncloud.test}
       # LDAP bind configuration
@@ -200,7 +200,7 @@ services:
     entrypoint: ["/bin/sh", "/opt/jboss/tools/docker-entrypoint-override.sh"]
     volumes:
       - ./config/keycloak/docker-entrypoint-override.sh:/opt/jboss/tools/docker-entrypoint-override.sh
-      - ./config/keycloak/ocis-realm.dist.json:/opt/jboss/keycloak/ocis-realm.dist.json
+      - ./config/keycloak/owncloud-realm.dist.json:/opt/jboss/keycloak/owncloud-realm.dist.json
     environment:
       CLOUD_DOMAIN: ${CLOUD_DOMAIN:-cloud.owncloud.test}
       OC10_OIDC_CLIENT_SECRET: ${OC10_OIDC_CLIENT_SECRET:-oc10-oidc-secret}
@@ -213,7 +213,7 @@ services:
       KEYCLOAK_USER: ${KEYCLOAK_ADMIN_USER:-admin}
       KEYCLOAK_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD:-admin}
       PROXY_ADDRESS_FORWARDING: "true"
-      KEYCLOAK_IMPORT: /opt/jboss/keycloak/ocis-realm.json
+      KEYCLOAK_IMPORT: /opt/jboss/keycloak/owncloud-realm.json
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.keycloak.entrypoints=https"
@@ -225,7 +225,7 @@ services:
       # so that clients (Desktop, iOS and Android) can detect OIDC, 302 redirect is not valid according RFC
       # https://doc.owncloud.com/server/admin_manual/configuration/user/oidc/#set-up-service-discovery
       - "traefik.http.middlewares.idp-headers.headers.customrequestheaders.X-Forwarded-Host=${KEYCLOAK_DOMAIN:-keycloak.owncloud.test}"
-      - "traefik.http.middlewares.idp-prefix.addprefix.prefix=/auth/realms/${KEYCLOAK_REALM:-oCIS}"
+      - "traefik.http.middlewares.idp-prefix.addprefix.prefix=/auth/realms/${KEYCLOAK_REALM:-owncloud}"
       - "traefik.http.middlewares.idp-override.chain.middlewares=idp-headers,idp-prefix"
       - "traefik.http.routers.idp-wellknown.entrypoints=https"
       - "traefik.http.routers.idp-wellknown.tls.certresolver=http"
