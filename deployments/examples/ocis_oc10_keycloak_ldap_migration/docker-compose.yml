@@ -103,8 +103,8 @@ services:
       # ownCloud storage readonly
       OCIS_STORAGE_READ_ONLY: "false" # TODO: conflict with OWNCLOUDSQL -> https://github.com/owncloud/ocis/issues/2303
       # General oCIS config
-      OCIS_LOG_LEVEL: ${OCIS_LOG_LEVEL:-debug} # make oCIS less verbose
-      #PROXY_LOG_LEVE: DEBUG
+      OCIS_LOG_LEVEL: ${OCIS_LOG_LEVEL:-error} # make oCIS less verbose
+      PROXY_LOG_LEVEL: ${PROXY_LOG_LEVEL:-error}
       OCIS_URL: https://${CLOUD_DOMAIn:-cloud.owncloud.test}
       PROXY_OIDC_INSECURE: "${INSECURE:-false}" # needed if Traefik is using self generated certificates
       PROXY_TLS: "false" # do not use SSL between Traefik and oCIS

@@ -3,7 +3,8 @@
 set -e
 
 cp /config/proxy-config.dist.json /config/proxy-config.json
-sed -i 's/cloud.owncloud.test/${CLOUD_DOMAIN:-cloud.owncloud.test}/g' /config/proxy-config.json
+# TODO: remove replace logic when log level configuration is fixed
+sed -i 's/PROXY_LOG_LEVEL/${PROXY_LOG_LEVEL}/g' /config/proxy-config.json
 
 # start everything except glauth and idp https://github.com/owncloud/ocis/pull/2229
 #ocis server --extensions="accounts, graph, graph-explorer, ocs, onlyoffice, proxy, settings, storage-authbasic, storage-authbearer, storage-frontend, storage-gateway, storage-groupsprovider, storage-home, storage-metadata, storage-public-link, storage-sharing, storage-users, storage-users-provider, store, thumbnails, web, webdav"

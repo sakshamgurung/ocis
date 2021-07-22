@@ -1,17 +1,7 @@
 {
   "log": {
-    "level": "debug",
-    "color": false,
-    "pretty": false
+    "level": "PROXY_LOG_LEVEL"
   },
-  "http": {
-    "Namespace": "com.owncloud",
-    "addr": "0.0.0.0:9200",
-    "root": "/",
-    "tls": false
-  },
-  "enablebasicauth": "true",
-  "accountbackend": "cs3",
   "policy_selector": {
     "regex": {
       "default_policy": "oc10",
