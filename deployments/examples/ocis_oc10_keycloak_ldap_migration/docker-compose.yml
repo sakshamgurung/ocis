@@ -58,7 +58,7 @@ services:
       WEB_OIDC_METADATA_URL: https://${KEYCLOAK_DOMAIN:-keycloak.owncloud.test}/auth/realms/${KEYCLOAK_REALM:-owncloud}/.well-known/openid-configuration
       STORAGE_OIDC_ISSUER: https://${KEYCLOAK_DOMAIN:-keycloak.owncloud.test}
       STORAGE_LDAP_IDP: https://${KEYCLOAK_DOMAIN:-keycloak.owncloud.test}/auth/realms/${KEYCLOAK_REALM:-owncloud}
-      WEB_OIDC_SCOPE: openid profile email # ownclouduuid  #TODO: extend scope
+      WEB_OIDC_SCOPE: openid profile email owncloud
       # LDAP bind
       STORAGE_LDAP_HOSTNAME: openldap
       STORAGE_LDAP_PORT: 636
@@ -67,6 +67,8 @@ services:
       # LDAP user settings
       PROXY_AUTOPROVISION_ACCOUNTS: "true" # automatically create users when they login
       PROXY_ACCOUNT_BACKEND_TYPE: cs3 # proxy should get users from CS3APIS (which gets it from LDAP)
+      PROXY_USER_OIDC_CLAIM: owncloudUUID # claim was added in Keycloak
+      PROXY_USER_CS3_CLAIM: userid # equals STORAGE_LDAP_USER_SCHEMA_UID
       STORAGE_LDAP_BASE_DN: "dc=owncloud,dc=com"
       STORAGE_LDAP_GROUP_SCHEMA_DISPLAYNAME: "cn"
       STORAGE_LDAP_GROUP_SCHEMA_GID_NUMBER: "gidnumber"

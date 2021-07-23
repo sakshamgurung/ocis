@@ -3,11 +3,8 @@
     "level": "PROXY_LOG_LEVEL"
   },
   "policy_selector": {
-    "regex": {
+    "claims": {
       "default_policy": "oc10",
-      "matches_policies": [
-        {"priority": 30, "property": "username", "match": "(einstein|richard)", "policy": "ocis"}
-      ],
       "unauthenticated_policy": "oc10"
     }
   },

@@ -22,6 +22,8 @@ gidNumber: 30000
 homeDirectory: /home/einstein
 ownCloudUUID:: NGM1MTBhZGEtYzg2Yi00ODE1LTg4MjAtNDJjZGY4MmMzZDUx
 userPassword:: e1NTSEF9TXJEcXpFNGdKbXZxbVRVTGhvWEZ1VzJBbkV3NWFLK3J3WTIvbHc9PQ==
+ownCloudSelector: ocis
+
 
 dn: uid=marie,ou=users,dc=owncloud,dc=com
 objectClass: inetOrgPerson
@@ -42,6 +44,7 @@ gidNumber: 30000
 homeDirectory: /home/marie
 ownCloudUUID:: ZjdmYmY4YzgtMTM5Yi00Mzc2LWIzMDctY2YwYThjMmQwZDlj
 userPassword:: e1NTSEF9UmFvQWs3TU9jRHBIUWY3bXN3MGhHNnVraFZQWnRIRlhOSUNNZEE9PQ==
+ownCloudSelector: oc10
 
 dn: uid=richard,ou=users,dc=owncloud,dc=com
 objectClass: inetOrgPerson
@@ -62,3 +65,4 @@ gidNumber: 30000
 homeDirectory: /home/richard
 ownCloudUUID:: OTMyYjQ1NDAtOGQxNi00ODFlLThlZjQtNTg4ZTRiNmIxNTFj
 userPassword:: e1NTSEF9Z05LZTRreHdmOGRUREY5eHlhSmpySTZ3MGxSVUM1d1RGcWROTVE9PQ==
+ownCloudSelector: ocis
