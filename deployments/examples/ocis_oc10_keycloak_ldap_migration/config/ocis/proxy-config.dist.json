@@ -102,6 +102,10 @@
         {
           "endpoint": "/",
           "backend": "http://oc10:8080"
+        },
+        {
+          "endpoint": "/data",
+          "backend": "http://localhost:9140"
         }
       ]
     }
