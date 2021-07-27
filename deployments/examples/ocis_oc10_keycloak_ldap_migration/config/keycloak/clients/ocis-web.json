@@ -2,6 +2,7 @@
     "clientId": "ocis-web",
     "rootUrl": "https://cloud.owncloud.test",
     "adminUrl": "https://cloud.owncloud.test",
+    "baseUrl": "",
     "surrogateAuthRequired": false,
     "enabled": true,
     "alwaysDisplayInConsole": false,
@@ -45,9 +46,9 @@
     "nodeReRegistrationTimeout": -1,
     "defaultClientScopes": [
         "web-origins",
-        "role_list",
         "profile",
         "roles",
+        "owncloud",
         "email"
     ],
     "optionalClientScopes": [

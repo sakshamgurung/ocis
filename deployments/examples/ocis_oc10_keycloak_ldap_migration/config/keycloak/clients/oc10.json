@@ -6,7 +6,6 @@
     "enabled": true,
     "alwaysDisplayInConsole": false,
     "clientAuthenticatorType": "client-secret",
-    "secret" : "oc10-oidc-secret",
     "redirectUris": [
         "https://cloud.owncloud.test/*"
     ],
@@ -24,10 +23,10 @@
     "frontchannelLogout": false,
     "protocol": "openid-connect",
     "attributes": {
-        "saml.assertion.signature": "false",
         "id.token.as.detached.signature": "false",
-        "saml.multivalued.roles": "false",
+        "saml.assertion.signature": "false",
         "saml.force.post.binding": "false",
+        "saml.multivalued.roles": "false",
         "saml.encrypt": "false",
         "oauth2.device.authorization.grant.enabled": "false",
         "backchannel.logout.revoke.offline.tokens": "false",
@@ -53,6 +52,7 @@
         "web-origins",
         "profile",
         "roles",
+        "owncloud",
         "email"
     ],
     "optionalClientScopes": [

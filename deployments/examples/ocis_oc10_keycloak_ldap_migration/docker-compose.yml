@@ -67,7 +67,7 @@ services:
       # LDAP user settings
       PROXY_AUTOPROVISION_ACCOUNTS: "true" # automatically create users when they login
       PROXY_ACCOUNT_BACKEND_TYPE: cs3 # proxy should get users from CS3APIS (which gets it from LDAP)
-      PROXY_USER_OIDC_CLAIM: owncloudUUID # claim was added in Keycloak
+      PROXY_USER_OIDC_CLAIM: ocis.user.uuid # claim was added in Keycloak
       PROXY_USER_CS3_CLAIM: userid # equals STORAGE_LDAP_USER_SCHEMA_UID
       STORAGE_LDAP_BASE_DN: "dc=owncloud,dc=com"
       STORAGE_LDAP_GROUP_SCHEMA_DISPLAYNAME: "cn"

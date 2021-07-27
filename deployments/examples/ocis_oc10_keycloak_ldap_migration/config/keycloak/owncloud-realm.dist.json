@@ -1296,7 +1296,7 @@
         "user.attribute" : "owncloudUUID",
         "id.token.claim" : "true",
         "access.token.claim" : "true",
-        "claim.name" : "owncloudUUID",
+        "claim.name" : "ocis\\.user\\.uuid",
         "jsonType.label" : "String"
       }
     } ]

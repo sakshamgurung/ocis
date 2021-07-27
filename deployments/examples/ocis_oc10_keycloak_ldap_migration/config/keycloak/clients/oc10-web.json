@@ -52,6 +52,7 @@
         "web-origins",
         "profile",
         "roles",
+        "owncloud",
         "email"
     ],
     "optionalClientScopes": [
