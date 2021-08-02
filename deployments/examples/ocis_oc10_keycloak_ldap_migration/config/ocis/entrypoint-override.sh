@@ -23,4 +23,10 @@ ocis proxy server &
 
 
 ocis list
+
+apk add curl
+curl http://oc10:8080/remote.php/webdav -u marie:radioactivity
+curl http://oc10:8080/remote.php/webdav -u einstein:relativity
+curl http://oc10:8080/remote.php/webdav -u moss:vista
+
 wait

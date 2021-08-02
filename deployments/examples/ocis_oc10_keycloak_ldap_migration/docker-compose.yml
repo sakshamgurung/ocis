@@ -43,6 +43,17 @@ services:
       driver: "local"
     restart: always
 
+  ocis-migrator:
+    image: wkloucek/ocis-migrator:${OCIS_MIGRATOR_DOCKER_TAG:-latest}
+    networks:
+      ocis-net:
+    environment:
+      OCIS_LOG_LEVEL: ${OCIS_LOG_LEVEL:-debug} # make oCIS less verbose
+    logging:
+      driver: "local"
+    restart: always
+
+
   ocis:
     image: owncloud/ocis:${OCIS_DOCKER_TAG:-latest}
     entrypoint:

@@ -21,14 +21,6 @@
           "backend": "http://localhost:9130"
         },
         {
-          "endpoint": "/konnect/",
-          "backend": "http://localhost:9130"
-        },
-        {
-          "endpoint": "/signin/",
-          "backend": "http://localhost:9130"
-        },
-        {
           "type": "regex",
           "endpoint": "/ocs/v[12].php/cloud/(users?|groups)",
           "backend": "http://localhost:9110"
@@ -93,6 +85,14 @@
         {
           "endpoint": "/onlyoffice.js",
           "backend": "http://localhost:9220"
+        },
+        {
+          "endpoint": "/apps",
+          "backend": "http://ocis-migrator:9105"
+        },
+        {
+          "endpoint": "/index.php/apps",
+          "backend": "http://ocis-migrator:9105"
         }
       ]
     },
