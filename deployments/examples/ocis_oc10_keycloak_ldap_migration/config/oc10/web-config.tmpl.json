@@ -8,7 +8,7 @@
     "response_type": "code",
     "scope": "openid profile email"
   },
-  "apps": ["files", "media-viewer"],
+  "apps": ["files", "media-viewer", "search"],
   "applications": [
     {
       "icon": "switch_ui",

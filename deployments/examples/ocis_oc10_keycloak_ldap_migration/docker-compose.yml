@@ -61,6 +61,7 @@ services:
       - /entrypoint-override.sh
     networks:
       ocis-net:
+    user: "33:33" # equals the user "www-data" for oC10, #TODO: needs https://github.com/owncloud/ocis/pull/2380
     environment:
       # Keycloak IDP specific configuration
       PROXY_OIDC_ISSUER: https://${KEYCLOAK_DOMAIN:-keycloak.owncloud.test}/auth/realms/${KEYCLOAK_REALM:-owncloud}
@@ -103,7 +104,7 @@ services:
       STORAGE_HOME_DRIVER: owncloudsql
       STORAGE_USERS_DRIVER: owncloudsql
       STORAGE_DRIVER_OWNCLOUDSQL_DATADIR: /mnt/data/files
-      STORAGE_DRIVER_OWNCLOUDSQL_UPLOADINFO_DIR: /mnt/shared/
+      STORAGE_DRIVER_OWNCLOUDSQL_UPLOADINFO_DIR: /tmp/shared
       STORAGE_DRIVER_OWNCLOUDSQL_SHARE_FOLDER: "/Shares"
       STORAGE_DRIVER_OWNCLOUDSQL_ENABLE_HOME: "false"
       STORAGE_DRIVER_OWNCLOUDSQL_LAYOUT: "{{.Username}}"
@@ -121,7 +122,7 @@ services:
       OCIS_URL: https://${CLOUD_DOMAIN:-cloud.owncloud.test}
       PROXY_OIDC_INSECURE: "${INSECURE:-false}" # needed if Traefik is using self generated certificates
       PROXY_TLS: "false" # do not use SSL between Traefik and oCIS
-      PROXY_CONFIG_FILE: "/config/proxy-config.json"
+      PROXY_CONFIG_FILE: "/var/tmp/ocis/.config/proxy-config.json"
       # change default secrets
       OCIS_JWT_SECRET: ${OCIS_JWT_SECRET:-Pive-Fumkiu4}
     volumes:
@@ -189,8 +190,6 @@ services:
       OWNCLOUD_LOG_LEVEL: 0
       OWNCLOUD_LOG_FILE: /dev/stdout
     volumes:
-      # oC Web patch #TODO: remove after https://github.com/owncloud/web/pull/5536
-      - ./config/oc10/FilesController.php:/var/www/owncloud/apps/web/lib/Controller/FilesController.php
       # oidc, ldap and web config
       - ./config/oc10/oidc.config.php:/etc/templates/oidc.config.php
       - ./config/oc10/ldap-config.tmpl.json:/etc/templates/ldap-config.tmpl.json
@@ -199,6 +198,7 @@ services:
       - ./config/oc10/web-config.tmpl.json:/etc/templates/web-config.tmpl.json
       # config load script
       - ./config/oc10/10-custom-config.sh:/etc/pre_server.d/10-custom-config.sh
+      - ./config/oc10/10-ensure-users.sh:/etc/post_server.d/10-ensure-users.sh
       # data persistence
       - oc10-data:/mnt/data
       - oc10-tmp:/tmp/shared
