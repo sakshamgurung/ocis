@@ -104,7 +104,7 @@ services:
       STORAGE_HOME_DRIVER: owncloudsql
       STORAGE_USERS_DRIVER: owncloudsql
       STORAGE_DRIVER_OWNCLOUDSQL_DATADIR: /mnt/data/files
-      STORAGE_DRIVER_OWNCLOUDSQL_UPLOADINFO_DIR: /tmp/shared
+      STORAGE_DRIVER_OWNCLOUDSQL_UPLOADINFO_DIR: /tmp
       STORAGE_DRIVER_OWNCLOUDSQL_SHARE_FOLDER: "/Shares"
       STORAGE_DRIVER_OWNCLOUDSQL_ENABLE_HOME: "false"
       STORAGE_DRIVER_OWNCLOUDSQL_LAYOUT: "{{.Username}}"
@@ -131,7 +131,6 @@ services:
       - ocis-data:/var/tmp/ocis
       # shared volume with oC10
       - oc10-data:/mnt/data
-      - oc10-tmp:/tmp/shared
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.ocis.entrypoints=https"
@@ -201,7 +200,6 @@ services:
       - ./config/oc10/10-ensure-users.sh:/etc/post_server.d/10-ensure-users.sh
       # data persistence
       - oc10-data:/mnt/data
-      - oc10-tmp:/tmp/shared
     logging:
       driver: "local"
     restart: always
