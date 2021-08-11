@@ -22,7 +22,7 @@
         },
         {
           "type": "regex",
-          "endpoint": "/ocs/v[12].php/cloud/(users?|groups)",
+          "endpoint": "/ocs/v[12].php/cloud/user/signing-key",
           "backend": "http://localhost:9110"
         },
         {
