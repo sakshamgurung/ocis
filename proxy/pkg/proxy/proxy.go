@@ -285,6 +285,10 @@ func defaultPolicies() []config.Policy {
 					Backend:  "http://localhost:9110",
 				},
 				{
+					Endpoint: "/app/",
+					Backend:  "http://localhost:9140",
+				},
+				{
 					Endpoint: "/ocs/",
 					Backend:  "http://localhost:9140",
 				},
