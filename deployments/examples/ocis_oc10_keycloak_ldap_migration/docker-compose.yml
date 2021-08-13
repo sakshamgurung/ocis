@@ -197,7 +197,6 @@ services:
       - ./config/oc10/web-config.tmpl.json:/etc/templates/web-config.tmpl.json
       # config load script
       - ./config/oc10/10-custom-config.sh:/etc/pre_server.d/10-custom-config.sh
-      - ./config/oc10/10-ensure-users.sh:/etc/post_server.d/10-ensure-users.sh
       # data persistence
       - oc10-data:/mnt/data
     logging:
