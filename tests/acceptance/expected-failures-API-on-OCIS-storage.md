@@ -716,8 +716,8 @@ Scenario Outline: Moving a file into a shared folder as the sharee and as the sh
 -   [apiVersions/fileVersionsSharingToShares.feature:43](https://github.com/owncloud/core/blob/master/tests/acceptance/features/apiVersions/fileVersionsSharingToShares.feature#L43)
 
 #### [not possible to move file into a received folder](https://github.com/owncloud/ocis/issues/764)
--   [apiVersions/fileVersionsSharingToShares.feature:221](https://github.com/owncloud/core/blob/master/tests/acceptance/features/apiVersions/fileVersionsSharingToShares.feature#L221)
--   [apiVersions/fileVersionsSharingToShares.feature:222](https://github.com/owncloud/core/blob/master/tests/acceptance/features/apiVersions/fileVersionsSharingToShares.feature#L222)
+-   [apiVersions/fileVersionsSharingToShares.feature:219](https://github.com/owncloud/core/blob/master/tests/acceptance/features/apiVersions/fileVersionsSharingToShares.feature#L219)
+-   [apiVersions/fileVersionsSharingToShares.feature:220](https://github.com/owncloud/core/blob/master/tests/acceptance/features/apiVersions/fileVersionsSharingToShares.feature#L220)
 
 #### [getting the metadata without permission results in a 403 error](https://github.com/owncloud/ocis/issues/773)
 
@@ -826,18 +826,21 @@ _ocs: api compatibility, return correct status code_
 -   [apiShareCreateSpecialToShares2/createShareGroupCaseSensitive.feature:90](https://github.com/owncloud/core/blob/master/tests/acceptance/features/apiShareCreateSpecialToShares2/createShareGroupCaseSensitive.feature#L90)
 
 #### [Share permissions can be updated to any value](https://github.com/owncloud/ocis/issues/2173)
--   [apiShareUpdateToShares/updateShare.feature:130](https://github.com/owncloud/core/blob/master/tests/acceptance/features/apiShareUpdateToShares/updateShare.feature#L130)
--   [apiShareUpdateToShares/updateShare.feature:131](https://github.com/owncloud/core/blob/master/tests/acceptance/features/apiShareUpdateToShares/updateShare.feature#L131)
--   [apiShareUpdateToShares/updateShare.feature:132](https://github.com/owncloud/core/blob/master/tests/acceptance/features/apiShareUpdateToShares/updateShare.feature#L132)
--   [apiShareUpdateToShares/updateShare.feature:133](https://github.com/owncloud/core/blob/master/tests/acceptance/features/apiShareUpdateToShares/updateShare.feature#L133)
--   [apiShareUpdateToShares/updateShare.feature:134](https://github.com/owncloud/core/blob/master/tests/acceptance/features/apiShareUpdateToShares/updateShare.feature#L134)
--   [apiShareUpdateToShares/updateShare.feature:135](https://github.com/owncloud/core/blob/master/tests/acceptance/features/apiShareUpdateToShares/updateShare.feature#L135)
--   [apiShareUpdateToShares/updateShare.feature:154](https://github.com/owncloud/core/blob/master/tests/acceptance/features/apiShareUpdateToShares/updateShare.feature#L154)
--   [apiShareUpdateToShares/updateShare.feature:162](https://github.com/owncloud/core/blob/master/tests/acceptance/features/apiShareUpdateToShares/updateShare.feature#L162)
+- [apiShareUpdateToShares/updateShare.feature:130](https://github.com/owncloud/core/blob/master/tests/acceptance/features/apiShareUpdateToShares/updateShare.feature#L130)
+- [apiShareUpdateToShares/updateShare.feature:131](https://github.com/owncloud/core/blob/master/tests/acceptance/features/apiShareUpdateToShares/updateShare.feature#L131)
+- [apiShareUpdateToShares/updateShare.feature:132](https://github.com/owncloud/core/blob/master/tests/acceptance/features/apiShareUpdateToShares/updateShare.feature#L132)
+- [apiShareUpdateToShares/updateShare.feature:133](https://github.com/owncloud/core/blob/master/tests/acceptance/features/apiShareUpdateToShares/updateShare.feature#L133)
+- [apiShareUpdateToShares/updateShare.feature:134](https://github.com/owncloud/core/blob/master/tests/acceptance/features/apiShareUpdateToShares/updateShare.feature#L134)
+- [apiShareUpdateToShares/updateShare.feature:135](https://github.com/owncloud/core/blob/master/tests/acceptance/features/apiShareUpdateToShares/updateShare.feature#L135)
+- [apiShareUpdateToShares/updateShare.feature:154](https://github.com/owncloud/core/blob/master/tests/acceptance/features/apiShareUpdateToShares/updateShare.feature#L154)
+- [apiShareUpdateToShares/updateShare.feature:155](https://github.com/owncloud/core/blob/master/tests/acceptance/features/apiShareUpdateToShares/updateShare.feature#L155)
+- [apiShareUpdateToShares/updateShare.feature:156](https://github.com/owncloud/core/blob/master/tests/acceptance/features/apiShareUpdateToShares/updateShare.feature#L156)
+- [apiShareUpdateToShares/updateShare.feature:157](https://github.com/owncloud/core/blob/master/tests/acceptance/features/apiShareUpdateToShares/updateShare.feature#L157)
+- [apiShareUpdateToShares/updateShare.feature:158](https://github.com/owncloud/core/blob/master/tests/acceptance/features/apiShareUpdateToShares/updateShare.feature#L158)
+- [apiShareUpdateToShares/updateShare.feature:159](https://github.com/owncloud/core/blob/master/tests/acceptance/features/apiShareUpdateToShares/updateShare.feature#L159)
+- [apiShareUpdateToShares/updateShare.feature:162](https://github.com/owncloud/core/blob/master/tests/acceptance/features/apiShareUpdateToShares/updateShare.feature#L162)
 
 #### [file_target does not contain Share folder](https://github.com/owncloud/ocis/issues/2133)
--   [apiShareUpdateToShares/updateShare.feature:98](https://github.com/owncloud/core/blob/master/tests/acceptance/features/apiShareUpdateToShares/updateShare.feature#L98)
--   [apiShareUpdateToShares/updateShare.feature:99](https://github.com/owncloud/core/blob/master/tests/acceptance/features/apiShareUpdateToShares/updateShare.feature#L99)
 -   [apiShareUpdateToShares/updateShare.feature:194](https://github.com/owncloud/core/blob/master/tests/acceptance/features/apiShareUpdateToShares/updateShare.feature#L194)
 -   [apiShareCreateSpecialToShares1/createShareReceivedInMultipleWays.feature:138](https://github.com/owncloud/core/blob/master/tests/acceptance/features/apiShareCreateSpecialToShares1/createShareReceivedInMultipleWays.feature#L138)
 -   [apiShareCreateSpecialToShares1/createShareReceivedInMultipleWays.feature:139](https://github.com/owncloud/core/blob/master/tests/acceptance/features/apiShareCreateSpecialToShares1/createShareReceivedInMultipleWays.feature#L139)
@@ -908,14 +911,6 @@ _ocs: api compatibility, return correct status code_
 -   [apiShareManagementToShares/moveReceivedShare.feature:177](https://github.com/owncloud/core/blob/master/tests/acceptance/features/apiShareManagementToShares/moveReceivedShare.feature#L177)
 -   [apiShareManagementToShares/moveReceivedShare.feature:189](https://github.com/owncloud/core/blob/master/tests/acceptance/features/apiShareManagementToShares/moveReceivedShare.feature#L189)
 -   [apiShareManagementToShares/moveReceivedShare.feature:249](https://github.com/owncloud/core/blob/master/tests/acceptance/features/apiShareManagementToShares/moveReceivedShare.feature#L249)
-
-#### [Share permissions can be updated to any value](https://github.com/owncloud/ocis/issues/2173)
--   [apiShareUpdateToShares/updateShare.feature:131](https://github.com/owncloud/core/blob/master/tests/acceptance/features/apiShareUpdateToShares/updateShare.feature#L131)
--   [apiShareUpdateToShares/updateShare.feature:132](https://github.com/owncloud/core/blob/master/tests/acceptance/features/apiShareUpdateToShares/updateShare.feature#L132)
--   [apiShareUpdateToShares/updateShare.feature:133](https://github.com/owncloud/core/blob/master/tests/acceptance/features/apiShareUpdateToShares/updateShare.feature#L133)
--   [apiShareUpdateToShares/updateShare.feature:134](https://github.com/owncloud/core/blob/master/tests/acceptance/features/apiShareUpdateToShares/updateShare.feature#L134)
--   [apiShareUpdateToShares/updateShare.feature:135](https://github.com/owncloud/core/blob/master/tests/acceptance/features/apiShareUpdateToShares/updateShare.feature#L135)
-
 
 #### [Share additional info](https://github.com/owncloud/ocis/issues/1253)
 #### [Share extra attributes](https://github.com/owncloud/ocis/issues/1224)
